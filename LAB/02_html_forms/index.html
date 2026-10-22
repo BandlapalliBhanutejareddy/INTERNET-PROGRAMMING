@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment 02 - HTML5 Form Controls</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f1f5f9; padding: 2rem; color: #1e293b; }
+        .form-card { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #2563eb; margin-top: 0; }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.35rem; font-size: 0.9rem; }
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="date"], select, textarea {
+            width: 100%; padding: 0.65rem; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 0.95rem;
+        }
+        .radio-group, .checkbox-group { display: flex; gap: 1rem; align-items: center; margin-top: 0.25rem; }
+        button { background: #2563eb; color: #ffffff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; font-size: 1rem; }
+        button:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <h2>Student Library Membership Registration</h2>
+        <p>Please complete this form to create your digital library borrower account.</p>
+
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="student_id">Student Registration Number *</label>
+                <input type="text" id="student_id" name="student_id" placeholder="e.g. 192325016" required pattern="[0-9]{9}" title="Enter a 9-digit registration number">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" placeholder="Enter student full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">College Email Address *</label>
+                <input type="email" id="email" name="email" placeholder="student@college.edu" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" pattern="[0-9]{10}">
+            </div>
+
+            <div class="form-group">
+                <label for="department">Academic Department *</label>
+                <select id="department" name="department" required>
+                    <option value="">-- Select Department --</option>
+                    <option value="CSE">Computer Science & Engineering</option>
+                    <option value="AIML">Artificial Intelligence & Machine Learning</option>
+                    <option value="IT">Information Technology</option>
+                    <option value="ECE">Electronics & Communication</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Year of Study</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="year" value="1"> 1st Year</label>
+                    <label><input type="radio" name="year" value="2"> 2nd Year</label>
+                    <label><input type="radio" name="year" value="3" checked> 3rd Year</label>
+                    <label><input type="radio" name="year" value="4"> 4th Year</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Create Secret Pin / Password *</label>
+                <input type="password" id="password" name="password" minlength="6" placeholder="Min. 6 characters" required>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="terms" required> I agree to adhere to all library borrowing and overdue policies.</label>
+                </div>
+            </div>
+
+            <button type="submit">Submit Membership Application</button>
+        </form>
+    </div>
+</body>
+</html>
