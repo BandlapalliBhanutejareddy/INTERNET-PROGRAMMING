@@ -5,7 +5,7 @@ Desktop.ini
 $RECYCLE.BIN/
 .DS_Store
 
-# IDE and Editor Files
+# IDE & Editor Directories
 .vscode/
 .idea/
 *.sublime-project
@@ -18,26 +18,8 @@ $RECYCLE.BIN/
 *.tmp
 *.temp
 *.log
-error_log
 
-# Antigravity & Agent Internal Metadata
+# Antigravity & Agent Metadata
 .gemini/
 .agents/
-.system_generated/
-
-# Sensitive & Local Environment Configs
-.env
-.env.local
-.env.*.local
-*.key
-*.pem
-credentials.json
-secrets.json
-
-# Dependencies
-node_modules/
-vendor/
-__pycache__/
-*.pyc
-.venv/
-venv/
+.system_generated/\n

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Programming Lab | Course CSA4315</title>
+    <style>
+        /* ----------------------------------------------------
+           CSS3 Stylesheet - Internet Programming Lab Website
+           ---------------------------------------------------- */
+        :root {
+            --primary: #1d4ed8;
+            --primary-light: #3b82f6;
+            --primary-dark: #1e3a8a;
+            --accent: #0284c7;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -4px rgba(0, 0, 0, 0.07);
+            --radius: 8px;
+            --transition: all 0.25s ease-in-out;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Container helper */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ----------------- Header & Navigation ----------------- */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-title:hover {
+            color: var(--primary-dark);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background-color: #eff6ff;
+        }
+
+        /* ----------------- Hero / Home Section ----------------- */
+        #home {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%);
+            color: #ffffff;
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        #home h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        #home p {
+            font-size: 1.15rem;
+            max-width: 720px;
+            margin: 0 auto 1.5rem;
+            color: #e0f2fe;
+            line-height: 1.6;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background: #ffffff;
+            color: var(--primary-dark);
+            font-weight: 700;
+            padding: 0.75rem 1.75rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-btn:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        /* ----------------- Section Commons ----------------- */
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ----------------- Experiments Grid ----------------- */
+        .experiments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .exp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .exp-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-hover-shadow);
+            border-color: var(--primary-light);
+        }
+
+        .exp-badge {
+            align-self: flex-start;
+            background: #eff6ff;
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .exp-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .exp-desc {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+
+        .exp-topics {
+            list-style: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .exp-topics li {
+            margin-bottom: 0.25rem;
+        }
+
+        .exp-topics li::before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* ----------------- About Section ----------------- */
+        #about {
+            background: #ffffff;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .about-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .about-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .about-box ul {
+            list-style: square;
+            padding-left: 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* ----------------- Contact Section ----------------- */
+        .contact-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-notice {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            color: var(--primary-dark);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ----------------- Footer ----------------- */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 2rem 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.88rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer p {
+            margin: 0.25rem 0;
+        }
+
+        /* ----------------- Responsive Mobile ----------------- */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+
+            nav ul {
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            #home h1 {
+                font-size: 2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experiments-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Header & Navigation -->
+    <header>
+        <div class="header-container">
+            <a href="#home" class="brand-title">
+                <span>📚</span> Internet Programming Lab
+            </a>
+            <nav aria-label="Main Navigation">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#experiments">Experiments</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 2. Home / Introduction Section -->
+    <section id="home">
+        <div class="container">
+            <div class="hero-badge">Course Code: CSA4315</div>
+            <h1>Internet Programming Lab</h1>
+            <p>
+                Welcome to the Internet Programming Lab portal. This course provides hands-on practical experience in modern web fundamentals, enabling undergraduate computer science engineering students to design semantic, accessible, and responsive websites using HTML5 and CSS3.
+            </p>
+            <a href="#experiments" class="hero-btn">View Lab Experiments ↓</a>
+        </div>
+    </section>
+
+    <!-- 3. Experiments Section -->
+    <section id="experiments">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Laboratory Experiments</h2>
+                <p class="section-subtitle">
+                    Explore fundamental hands-on exercises developed throughout the Internet Programming Lab course.
+                </p>
+            </div>
+
+            <div class="experiments-grid">
+                <!-- Experiment 1 -->
+                <article class="exp-card">
+                    <div>
+                        <div class="exp-badge">Experiment 01</div>
+                        <h3 class="exp-title">Basic HTML Structure</h3>
+                        <p class="exp-desc">
+                            Learn core HTML5 semantic elements, page metadata, document heading hierarchy (h1 to h6), paragraphs, blockquotes, and text formatting.
+                        </p>
+                    </div>
+                    <ul class="exp-topics">
+                        <li>DOCTYPE html declaration</li>
+                        <li>Header, nav, main, and footer semantics</li>
+                        <li>Headings, paragraphs & formatting</li>
+                    </ul>
+                </article>
+
+                <!-- Experiment 2 -->
+                <article class="exp-card">
+                    <div>
+                        <div class="exp-badge">Experiment 02</div>
+                        <h3 class="exp-title">HTML Forms</h3>
+                        <p class="exp-desc">
+                            Design interactive user input forms using text fields, emails, passwords, radio buttons, checkboxes, dropdown select menus, and native validation.
+                        </p>
+                    </div>
+                    <ul class="exp-topics">
+                        <li>Input types (text, email, password, date)</li>
+                        <li>Labels, fieldsets, and legends</li>
+                        <li>Form validation attributes (required, pattern)</li>
+                    </ul>
+                </article>
+
+                <!-- Experiment 3 -->
+                <article class="exp-card">
+                    <div>
+                        <div class="exp-badge">Experiment 03</div>
+                        <h3 class="exp-title">CSS Styling</h3>
+                        <p class="exp-desc">
+                            Master modern styling with CSS selectors, the CSS box model (margin, border, padding), typography, color palettes, and responsive flexbox layouts.
+                        </p>
+                    </div>
+                    <ul class="exp-topics">
+                        <li>CSS selectors and custom variables</li>
+                        <li>Box model and spacing properties</li>
+                        <li>Flexbox layout and hover transitions</li>
+                    </ul>
+                </article>
+
+                <!-- Experiment 4 -->
+                <article class="exp-card">
+                    <div>
+                        <div class="exp-badge">Experiment 04</div>
+                        <h3 class="exp-title">Tables and Lists</h3>
+                        <p class="exp-desc">
+                            Present structured tabular data cleanly using HTML tables with headers, body rows, zebra striping, along with ordered and unordered list elements.
+                        </p>
+                    </div>
+                    <ul class="exp-topics">
+                        <li>Table elements (table, thead, tbody, th, td)</li>
+                        <li>Ordered (&lt;ol&gt;) and unordered (&lt;ul&gt;) lists</li>
+                        <li>Border collapse and table alignment styling</li>
+                    </ul>
+                </article>
+
+                <!-- Experiment 5 -->
+                <article class="exp-card">
+                    <div>
+                        <div class="exp-badge">Experiment 05</div>
+                        <h3 class="exp-title">Links and Images</h3>
+                        <p class="exp-desc">
+                            Implement hyperlinking architectures including internal page bookmarks, external references, target attributes, and responsive accessible images.
+                        </p>
+                    </div>
+                    <ul class="exp-topics">
+                        <li>Anchor tags (&lt;a&gt;) with href targets</li>
+                        <li>Internal page anchor jumps (#id)</li>
+                        <li>Images (&lt;img&gt;) with alt text and sizing</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About the Course</h2>
+                <p class="section-subtitle">
+                    Department of Computer Science & Engineering &bull; Saveetha School of Engineering (SIMATS)
+                </p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        The <strong>Internet Programming Lab (CSA4315)</strong> is designed to equip engineering students with foundational knowledge in client-side web development. Students learn how the World Wide Web operates, how browsers parse HTML documents, and how CSS rules style visual presentation.
+                    </p>
+                    <p>
+                        Through structured practical sessions, learners progress from basic static markup to creating accessible, multi-page layouts that render consistently across desktop monitors, laptops, tablets, and smartphones.
+                    </p>
+                </div>
+                <div class="about-box">
+                    <h3>Key Learning Outcomes</h3>
+                    <ul>
+                        <li>Author valid, semantic HTML5 documents according to W3C standards.</li>
+                        <li>Apply CSS3 styling, color theory, and responsive layout techniques.</li>
+                        <li>Construct accessible web forms with client-side constraints.</li>
+                        <li>Structure tabular datasets and hyperlinked navigation flows.</li>
+                        <li>Prepare for full-stack engineering and modern front-end technologies.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Contact Course Instructor</h2>
+                <p class="section-subtitle">
+                    Have questions regarding lab assignments or experiment evaluations? Reach out below.
+                </p>
+            </div>
+
+            <div class="contact-card">
+                <div class="form-notice">
+                    <strong>ℹ Demonstration Form:</strong> This is a static HTML5 form designed for laboratory learning. It does not transmit messages to an external server.
+                </div>
+
+                <form action="#contact" method="GET">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" class="form-control" placeholder="e.g. Bhanuteja Reddy" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="emailAddr">College Email</label>
+                        <input type="email" id="emailAddr" name="emailAddr" class="form-control" placeholder="e.g. student@college.edu" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="subject">Experiment Topic</label>
+                        <input type="text" id="subject" name="subject" class="form-control" placeholder="e.g. Experiment 3 CSS Layout Query" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="message">Message / Question</label>
+                        <textarea id="message" name="message" class="form-control" placeholder="Describe your question or feedback..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Submit Inquiry (Demo)</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Bandlapalli Bhanuteja Reddy. All rights reserved.</p>
+            <p>Internet Programming Lab (CSA4315) &bull; Saveetha School of Engineering</p>
+        </div>
+    </footer>
+
+</body>
+</html>\n

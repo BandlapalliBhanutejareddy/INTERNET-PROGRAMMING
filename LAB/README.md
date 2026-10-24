@@ -1,50 +1,50 @@
-# Internet Programming Lab (CSA4315) &mdash; Experiment Index
+# Internet Programming Lab &mdash; Course CSA4315
 
-This directory contains all 18 structured Internet Programming Lab experiments. Each experiment is completely runnable, self-contained, and accompanied by its individual `README.md` detailing the title, aim, algorithm, source code, sample inputs, expected outputs, and execution instructions.
+## Project Title
+Internet Programming Lab: Basic HTML5 & CSS3 Website
 
----
+## Aim
+To create a clean, responsive, beginner-friendly academic laboratory website using pure HTML5 and embedded CSS3 that demonstrates semantic document structure, section navigation, experiment cards, curriculum overview, and an accessible contact form.
 
-## Complete Lab Experiments Index
+## Technologies Used
+- **HTML5**: Semantic tags (`<header>`, `<nav>`, `<section>`, `<article>`, `<footer>`, `<form>`).
+- **CSS3**: Embedded `<style>` with CSS custom properties (variables), CSS Grid, Flexbox, media queries, and smooth scrolling.
+- **Tools**: Standard web browser (Google Chrome, Microsoft Edge, Mozilla Firefox) with zero build steps or dependencies.
 
-| # | Experiment Folder | Topic & Core Concept | Key Technologies |
-|---|-------------------|----------------------|------------------|
-| **01** | [`01_basic_html/`](01_basic_html/README.md) | HTML5 Semantic Elements & Document Layout | Semantic Tags, Tables, Lists |
-| **02** | [`02_html_forms/`](02_html_forms/README.md) | HTML5 Form Controls & Native Validation | Input Types, Select, Radios |
-| **03** | [`03_css_styling/`](03_css_styling/README.md) | Responsive CSS3 Flexbox & Grid Layouts | CSS Grid, Flexbox, Media Queries |
-| **04** | [`04_javascript_validation/`](04_javascript_validation/README.md) | Client-side Form Validation with Regex | JavaScript, Regex, DOM Errors |
-| **05** | [`05_dom_manipulation/`](05_dom_manipulation/README.md) | DOM Manipulation & Real-time Filtering | Dynamic DOM, Events, Filtering |
-| **06** | [`06_php_basics/`](06_php_basics/README.md) | PHP Variables, Arrays, Functions & Loops | PHP Types, Arrays, Foreach |
-| **07** | [`07_php_forms/`](07_php_forms/README.md) | PHP Form Handling & Data Sanitization | POST/GET, htmlspecialchars, filter_var |
-| **08** | [`08_php_sessions/`](08_php_sessions/README.md) | Session State Management & Route Protection | session_start, $_SESSION, Auth |
-| **09** | [`09_php_mysql_connection/`](09_php_mysql_connection/README.md) | PDO MySQL Database Connection | PDO DSN, Exception Handling |
-| **10** | [`10_crud_operations/`](10_crud_operations/README.md) | Database CRUD Operations with Prepared Statements | INSERT, SELECT, UPDATE, DELETE |
-| **11** | [`11_user_authentication/`](11_user_authentication/README.md) | BCrypt User Authentication | password_hash(), password_verify() |
-| **12** | [`12_book_search/`](12_book_search/README.md) | Multi-criteria Book Search & Filtering | SQL LIKE, Prepared Statements |
-| **13** | [`13_library_management/`](13_library_management/README.md) | Inventory Aggregation & Stock Balance | SQL GROUP BY, SUM, COUNT |
-| **14** | [`14_issue_return_system/`](14_issue_return_system/README.md) | ACID-compliant Book Checkout & Returns | Transactions, Row Locks (FOR UPDATE) |
-| **15** | [`15_fine_calculation/`](15_fine_calculation/README.md) | Overdue Fine Calculation Engine | DateTime::diff, Configurable Rates |
-| **16** | [`16_ajax_search/`](16_ajax_search/README.md) | Asynchronous Live Search via AJAX | Fetch API, JSON Backend |
-| **17** | [`17_study_materials/`](17_study_materials/README.md) | Controlled File Uploads & Downloads | MIME Validation, Safe Renaming |
-| **18** | [`18_complete_library_project/`](18_complete_library_project/README.md) | Integrated Full-Stack Library Portal | Complete End-to-End Application |
+## Key Features
+1. **Semantic Structure**: Meaningful markup utilizing standard HTML5 elements for optimal accessibility.
+2. **Navigation Bar**: Working anchor links jumping to `#home`, `#experiments`, `#about`, and `#contact`.
+3. **Introduction Banner**: Clear course description with university affiliation.
+4. **Experiment Cards**: Grid-based layout showcasing the five fundamental experiments:
+   - Experiment 1: Basic HTML Structure
+   - Experiment 2: HTML Forms
+   - Experiment 3: CSS Styling
+   - Experiment 4: Tables and Lists
+   - Experiment 5: Links and Images
+5. **Curriculum Section**: Informational card detailing student learning outcomes.
+6. **Accessible Contact Form**: Clean form with appropriate labels, inputs, text area, and explicit demonstration disclaimer.
+7. **Responsive Design**: Adapts cleanly across desktop monitors, tablets, and smartphones without external frameworks.
 
----
+## Steps to Run the Website
+1. Clone or download this repository:
+   ```bash
+   git clone https://github.com/BandlapalliBhanutejareddy/INTERNET-PROGRAMMING.git
+   ```
+2. Navigate to the `LAB` folder:
+   ```bash
+   cd INTERNET-PROGRAMMING/LAB
+   ```
+3. Open `index.html` in any web browser:
+   - On Windows: Double-click `index.html` or run `start index.html` in PowerShell.
+   - Alternatively, drag and drop `index.html` into your browser window.
 
-## How to Execute the Lab Programs
+## Instructions for Editing the HTML
+1. Open `LAB/index.html` in any text editor or IDE (Antigravity, VS Code, Notepad).
+2. To add or modify experiments, locate the `<div class="experiments-grid">` block and edit or duplicate an `<article class="exp-card">` element.
+3. To alter styling, edit the CSS rules contained within the `<style>` element inside the `<head>` tag.
+4. Save the file and refresh your browser (`F5` or `Ctrl + R`) to preview changes immediately.
 
-### Static Web Experiments (Exp 01 - 05, Exp 16)
-These client-side experiments run directly in any modern browser:
-1. Open your browser (Chrome / Edge / Firefox).
-2. Press `Ctrl + O` and browse to the experiment's `index.html`.
-
-### PHP Server Experiments (Exp 06 - 17)
-Run using PHP built-in web server or XAMPP:
-```bash
-# From the project root folder:
-php -S localhost:8000
-```
-Then visit: `http://localhost:8000/LAB/<experiment_folder>/`
-
-### Integrated Portal (Exp 18 & Root Project)
-The integrated Library Management System runs in the root directory:
-1. Import `database/schema.sql` and `database/seed.sql` in phpMyAdmin.
-2. Open `http://localhost:8000/index.php`.
+## Browser Testing Instructions
+- **Chrome / Edge / Firefox**: Verify that headings, cards, and buttons render cleanly.
+- **Anchor Navigation**: Click each item in the top navigation menu (Home, Experiments, About, Contact) to confirm smooth page scrolling to each section ID.
+- **Mobile Emulation**: Press `F12` to open Developer Tools, click the Device Toggle icon (`Ctrl + Shift + M`), and test screen widths (375px, 768px, 1200px) to verify responsive grid adjustments.\n
