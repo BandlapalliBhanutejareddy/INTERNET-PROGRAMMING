@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exp 1 - Local Library Management System</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { margin: 0; background: #f4f6f9; color: #333; }
+    header { background: #1a365d; color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { margin: 0; font-size: 22px; }
+    .nav-tabs button { background: #2b6cb0; color: white; border: none; padding: 10px 16px; margin-left: 5px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .nav-tabs button.active { background: #ecc94b; color: #1a202c; }
+    .container { max-width: 1100px; margin: 25px auto; padding: 0 15px; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .card h2 { margin-top: 0; color: #2d3748; border-bottom: 2px solid #edf2f7; padding-bottom: 8px; }
+    .form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    input, select, button { padding: 9px 12px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 14px; }
+    input, select { flex: 1; min-width: 180px; }
+    .btn-action { background: #3182ce; color: white; border: none; cursor: pointer; font-weight: 600; }
+    .btn-action:hover { background: #2b6cb0; }
+    .btn-danger { background: #e53e3e; color: white; border: none; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+    th { background: #edf2f7; color: #4a5568; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+    .tag-avail { background: #c6f6d5; color: #22543d; }
+    .tag-issued { background: #fed7d7; color: #742a2a; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📚 City Central Library Portal</h1>
+  <div class="nav-tabs">
+    <button id="tabStudentBtn" class="active" onclick="switchView('student')">Student Portal</button>
+    <button id="tabAdminBtn" onclick="switchView('admin')">Librarian Admin</button>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Student View -->
+  <div id="studentView">
+    <div class="card">
+      <h2>Search Book Catalog</h2>
+      <div class="form-row">
+        <input type="text" id="searchKeyword" placeholder="Search by Title, Author, or ISBN..." onkeyup="filterBooks()">
+        <select id="genreFilter" onchange="filterBooks()">
+          <option value="All">All Categories</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Electronics">Electronics</option>
+        </select>
+      </div>
+      <table id="catalogTable">
+        <thead>
+          <tr><th>ID</th><th>Book Title</th><th>Author</th><th>Category</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody id="catalogBody"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>My Borrow History & Fine Details</h2>
+      <table>
+        <thead>
+          <tr><th>Book</th><th>Issue Date</th><th>Due Date</th><th>Days Overdue</th><th>Fine (₹5/day)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Operating System Concepts</td><td>2024-09-01</td><td>2024-09-15</td><td>12</td><td style="color:red; font-weight:bold;">₹ 60</td></tr>
+          <tr><td>Data Structures & Algorithms</td><td>2024-10-10</td><td>2024-10-24</td><td>0</td><td style="color:green; font-weight:bold;">₹ 0</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Admin View -->
+  <div id="adminView" style="display:none;">
+    <div class="card">
+      <h2>Add New Book to Inventory</h2>
+      <div class="form-row">
+        <input type="text" id="newTitle" placeholder="Book Title">
+        <input type="text" id="newAuthor" placeholder="Author">
+        <select id="newCategory">
+          <option value="Computer Science">Computer Science</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Electronics">Electronics</option>
+        </select>
+        <button class="btn-action" onclick="addBook()">Add Book</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Active Issued Books Tracker</h2>
+      <table id="issuedTable">
+        <thead>
+          <tr><th>Student ID</th><th>Book Title</th><th>Issue Date</th><th>Return Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>STU1084</td><td>Computer Networks</td><td>2024-09-20</td>
+            <td><span class="tag tag-issued">Issued</span></td>
+            <td><button class="btn-action" onclick="alert('Book marked as returned! Fine calculated: ₹0')">Mark Return</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  let books = [
+    { id: 101, title: 'Database System Concepts', author: 'Silberschatz', category: 'Computer Science', available: true },
+    { id: 102, title: 'Discrete Mathematics', author: 'Kenneth Rosen', category: 'Mathematics', available: true },
+    { id: 103, title: 'Digital Logic & Design', author: 'Morris Mano', category: 'Electronics', available: false },
+    { id: 104, title: 'Internet Programming & Web Apps', author: 'Deitel', category: 'Computer Science', available: true }
+  ];
+
+  function renderBooks(list) {
+    const tbody = document.getElementById('catalogBody');
+    tbody.innerHTML = '';
+    list.forEach(b => {
+      tbody.innerHTML += `
+        <tr>
+          <td>${b.id}</td>
+          <td><strong>${b.title}</strong></td>
+          <td>${b.author}</td>
+          <td>${b.category}</td>
+          <td><span class="tag ${b.available ? 'tag-avail' : 'tag-issued'}">${b.available ? 'Available' : 'Issued'}</span></td>
+          <td>
+            ${b.available ? `<button class="btn-action" onclick="borrowBook(${b.id})">Borrow</button>` : '<button disabled>Unavailable</button>'}
+          </td>
+        </tr>`;
+    });
+  }
+
+  function filterBooks() {
+    const kw = document.getElementById('searchKeyword').value.toLowerCase();
+    const gen = document.getElementById('genreFilter').value;
+    const filtered = books.filter(b => {
+      const matchKW = b.title.toLowerCase().includes(kw) || b.author.toLowerCase().includes(kw);
+      const matchGen = gen === 'All' || b.category === gen;
+      return matchKW && matchGen;
+    });
+    renderBooks(filtered);
+  }
+
+  function borrowBook(id) {
+    const item = books.find(b => b.id === id);
+    if(item) { item.available = false; alert(`Book "${item.title}" successfully issued! Due in 14 days.`); filterBooks(); }
+  }
+
+  function addBook() {
+    const title = document.getElementById('newTitle').value;
+    const author = document.getElementById('newAuthor').value;
+    const category = document.getElementById('newCategory').value;
+    if(!title || !author) { alert('Enter title and author'); return; }
+    books.push({ id: books.length + 101, title, author, category, available: true });
+    alert('Book added to catalogue successfully!');
+    document.getElementById('newTitle').value = '';
+    document.getElementById('newAuthor').value = '';
+    filterBooks();
+  }
+
+  function switchView(view) {
+    document.getElementById('studentView').style.display = view === 'student' ? 'block' : 'none';
+    document.getElementById('adminView').style.display = view === 'admin' ? 'block' : 'none';
+    document.getElementById('tabStudentBtn').className = view === 'student' ? 'active' : '';
+    document.getElementById('tabAdminBtn').className = view === 'admin' ? 'active' : '';
+  }
+
+  renderBooks(books);
+</script>
+</body>
+</html>

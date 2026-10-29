@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exp 4 - Railway Reservation System</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { margin: 0; background: #eef2f6; }
+    .header { background: #1e3a8a; color: white; padding: 18px 25px; }
+    .wrapper { max-width: 960px; margin: 20px auto; }
+    .card { background: white; padding: 20px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.06); margin-bottom: 20px; }
+    .flex-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    input, select, button { padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 4px; }
+    input, select { flex: 1; }
+    button.btn-primary { background: #ea580c; color: white; font-weight: bold; border: none; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+    th { background: #f8fafc; }
+    .pnr-output { background: #dcfce7; border: 1px solid #86efac; padding: 12px; border-radius: 4px; margin-top: 10px; display: none; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h2>🚆 National Railway Reservation Portal</h2>
+</div>
+
+<div class="wrapper">
+  <!-- Booking Form -->
+  <div class="card">
+    <h3>Book Train Journey Ticket</h3>
+    <div class="flex-row">
+      <input type="text" id="src" placeholder="From Station (e.g. MAS - Chennai)">
+      <input type="text" id="dst" placeholder="To Station (e.g. SBC - Bangalore)">
+      <input type="date" id="journeyDate">
+      <select id="trainClass">
+        <option value="Sleeper (SL)">Sleeper (SL) - ₹320</option>
+        <option value="AC 3 Tier (3A)">AC 3 Tier (3A) - ₹850</option>
+        <option value="AC 2 Tier (2A)">AC 2 Tier (2A) - ₹1200</option>
+      </select>
+    </div>
+    <div class="flex-row">
+      <input type="text" id="passName" placeholder="Passenger Full Name">
+      <input type="number" id="passAge" placeholder="Age" style="max-width: 100px;">
+      <button class="btn-primary" onclick="generateTicket()">Reserve Ticket</button>
+    </div>
+
+    <div id="bookingResult" class="pnr-output"></div>
+  </div>
+
+  <!-- PNR Status & Cancellation -->
+  <div class="card">
+    <h3>Check PNR Status / Cancel Ticket</h3>
+    <div class="flex-row">
+      <input type="text" id="checkPnrInput" placeholder="Enter 10-digit PNR Number">
+      <button class="btn-primary" style="background:#2563eb;" onclick="verifyPnr()">Check Status</button>
+      <button class="btn-primary" style="background:#dc2626;" onclick="cancelPnr()">Cancel & Refund</button>
+    </div>
+    <div id="pnrDetails" style="font-size: 14px; margin-top: 10px;"></div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('journeyDate').value = new Date().toISOString().split('T')[0];
+  const pnrDatabase = {};
+
+  function generateTicket() {
+    const src = document.getElementById('src').value;
+    const dst = document.getElementById('dst').value;
+    const name = document.getElementById('passName').value;
+    const cls = document.getElementById('trainClass').value;
+    if(!src || !dst || !name) { alert('Please enter stations and passenger name'); return; }
+
+    const pnr = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+    pnrDatabase[pnr] = { name, src, dst, cls, status: "CNF (Confirmed)", coach: "B2", seat: 24, fare: 850 };
+
+    const box = document.getElementById('bookingResult');
+    box.style.display = 'block';
+    box.innerHTML = `<strong>Ticket Booked Successfully!</strong><br>PNR: <b>${pnr}</b> | Passenger: ${name} | Class: ${cls} | Status: <span style="color:green; font-weight:bold;">CNF (Confirmed)</span>`;
+  }
+
+  function verifyPnr() {
+    const num = document.getElementById('checkPnrInput').value;
+    const record = pnrDatabase[num];
+    const out = document.getElementById('pnrDetails');
+    if(!record) {
+      out.innerHTML = `<span style="color:red;">PNR not found or invalid.</span>`;
+    } else {
+      out.innerHTML = `<strong>PNR Status:</strong> ${record.status} | <strong>Passenger:</strong> ${record.name} | <strong>Route:</strong> ${record.src} ➔ ${record.dst} | <strong>Seat:</strong> Coach ${record.coach}, Seat ${record.seat}`;
+    }
+  }
+
+  function cancelPnr() {
+    const num = document.getElementById('checkPnrInput').value;
+    if(pnrDatabase[num]) {
+      const refund = pnrDatabase[num].fare * 0.75;
+      delete pnrDatabase[num];
+      document.getElementById('pnrDetails').innerHTML = `<span style="color:#b91c1c;">Ticket with PNR ${num} cancelled. Refund of ₹${refund} (75%) credited.</span>`;
+    } else {
+      alert('PNR not found!');
+    }
+  }
+</script>
+</body>
+</html>

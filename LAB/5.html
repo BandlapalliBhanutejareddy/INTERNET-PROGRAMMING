@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exp 5 - Airline Flight Reservation</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { margin: 0; background: #f0f4f8; }
+    .nav { background: #0284c7; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+    .container { max-width: 1050px; margin: 25px auto; padding: 0 15px; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .form-inline { display: flex; gap: 10px; flex-wrap: wrap; }
+    input, select, button { padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 4px; }
+    input, select { flex: 1; }
+    .flight-row { display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0; padding: 14px; border-radius: 6px; margin-top: 10px; }
+    .boarding-pass { border: 2px dashed #0284c7; background: #f0f9ff; padding: 20px; border-radius: 8px; margin-top: 20px; display: none; }
+    .btn-action { background: #0284c7; color: white; border: none; font-weight: bold; cursor: pointer; }
+    .btn-print { background: #15803d; color: white; border: none; padding: 8px 14px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="nav">
+  <h2>✈️ AeroWings Global Airlines</h2>
+  <span>Global Reservation Desk</span>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h3>Search Scheduled Flights</h3>
+    <div class="form-inline">
+      <select id="origin">
+        <option value="MAA">Chennai (MAA)</option>
+        <option value="DEL">Delhi (DEL)</option>
+      </select>
+      <select id="dest">
+        <option value="DXB">Dubai (DXB)</option>
+        <option value="SIN">Singapore (SIN)</option>
+        <option value="LHR">London (LHR)</option>
+      </select>
+      <input type="date" value="2026-11-01">
+      <select id="travelClass">
+        <option value="Economy">Economy</option>
+        <option value="Business">Business</option>
+      </select>
+      <button class="btn-action" onclick="searchFlights()">Search Flights</button>
+    </div>
+
+    <div id="flightList" style="margin-top: 20px;"></div>
+  </div>
+
+  <div id="ticketContainer" class="boarding-pass">
+    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #bae6fd; padding-bottom: 8px;">
+      <h3 style="margin:0; color:#0369a1;">OFFICIAL E-BOARDING PASS</h3>
+      <span style="font-weight: bold; color: green;">BOOKING CONFIRMED</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 15px;">
+      <div><strong>Passenger:</strong> <span id="bpPass"></span></div>
+      <div><strong>Flight:</strong> <span id="bpFlight"></span></div>
+      <div><strong>Route:</strong> <span id="bpRoute"></span></div>
+      <div><strong>Class:</strong> <span id="bpClass"></span></div>
+      <div><strong>Gate:</strong> G4</div>
+    </div>
+    <div style="margin-top: 20px;">
+      <button class="btn-print" onclick="window.print()">🖨️ Print Ticket</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const flights = [
+    { no: "AW-301", time: "06:15 AM - 09:30 AM", fare: 14500 },
+    { no: "AW-708", time: "04:45 PM - 08:00 PM", fare: 16800 }
+  ];
+
+  function searchFlights() {
+    const list = document.getElementById('flightList');
+    const org = document.getElementById('origin').value;
+    const dst = document.getElementById('dest').value;
+    list.innerHTML = '<h4>Available Flights</h4>';
+
+    flights.forEach(f => {
+      list.innerHTML += `
+        <div class="flight-row">
+          <div>
+            <strong>${f.no}</strong> | Non-stop (${f.time})<br>
+            <small style="color:#64748b;">${org} ➔ ${dst}</small>
+          </div>
+          <div><strong style="color:#0284c7; font-size:18px;">₹ ${f.fare}</strong></div>
+          <button class="btn-action" onclick="bookFlight('${f.no}', '${org}', '${dst}')">Select & Book</button>
+        </div>`;
+    });
+  }
+
+  function bookFlight(flightNo, org, dst) {
+    const name = prompt("Enter Primary Passenger Full Name:");
+    if (!name) return;
+    const cls = document.getElementById('travelClass').value;
+
+    document.getElementById('bpPass').innerText = name;
+    document.getElementById('bpFlight').innerText = flightNo;
+    document.getElementById('bpRoute').innerText = `${org} ➔ ${dst}`;
+    document.getElementById('bpClass').innerText = cls;
+    document.getElementById('ticketContainer').style.display = 'block';
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+
+  searchFlights();
+</script>
+</body>
+</html>

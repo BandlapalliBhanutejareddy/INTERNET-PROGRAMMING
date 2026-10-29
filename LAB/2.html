@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exp 2 - Online Hotel Room Booking</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { margin: 0; background: #fafafa; }
+    header { background: #0f172a; color: white; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .hero { background: #3b82f6; color: white; padding: 24px; text-align: center; }
+    .search-bar { background: white; max-width: 900px; margin: -20px auto 20px; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; gap: 10px; }
+    .search-bar input, .search-bar button { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+    .search-bar button { background: #2563eb; color: white; border: none; font-weight: bold; cursor: pointer; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+    .card { background: white; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .card-body { padding: 15px; }
+    .price { font-size: 20px; color: #16a34a; font-weight: bold; }
+    .btn-book { width: 100%; background: #059669; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .admin-box { background: #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 30px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+    th { background: #f1f5f9; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Grand Horizon Luxury Hotel</h2>
+  <div><span>Logged in as: <strong>Guest User</strong></span></div>
+</header>
+
+<div class="hero">
+  <h1>Reserve Your Comfortable Stay</h1>
+</div>
+
+<div class="search-bar">
+  <input type="text" placeholder="Destination City" value="Chennai">
+  <input type="date" id="checkInDate">
+  <input type="number" placeholder="Guests" min="1" value="2" style="width: 80px;">
+  <button onclick="alert('Rooms refreshed based on selected dates!')">Check Availability</button>
+</div>
+
+<div class="container">
+  <h3>Available Room Types</h3>
+  <div class="grid" id="roomsList"></div>
+
+  <div class="admin-box">
+    <h3>Admin Operations: Manage Rates & Capacity</h3>
+    <table id="adminRoomTable">
+      <thead>
+        <tr><th>Room Type</th><th>Available Units</th><th>Current Price / Night</th><th>Action</th></tr>
+      </thead>
+      <tbody id="adminBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const rooms = [
+    { id: 1, name: "Standard Deluxe", price: 2499, avail: 5, desc: "King Bed, Free Wi-Fi, City View" },
+    { id: 2, name: "Executive Suite", price: 4499, avail: 3, desc: "Living Room, Jacuzzi, Buffet Breakfast" },
+    { id: 3, name: "Presidential Suite", price: 8999, avail: 1, desc: "Panoramic Ocean View, Personal Butler" }
+  ];
+
+  function renderRooms() {
+    const list = document.getElementById('roomsList');
+    const adminBody = document.getElementById('adminBody');
+    list.innerHTML = '';
+    adminBody.innerHTML = '';
+
+    rooms.forEach(r => {
+      list.innerHTML += `
+        <div class="card">
+          <div class="card-body">
+            <h3>${r.name}</h3>
+            <p style="color: #64748b; font-size: 13px;">${r.desc}</p>
+            <p>Units Left: <strong>${r.avail}</strong></p>
+            <div class="price">₹ ${r.price} / night</div>
+            <button class="btn-book" onclick="bookRoom('${r.name}')">Book Now</button>
+          </div>
+        </div>`;
+
+      adminBody.innerHTML += `
+        <tr>
+          <td>${r.name}</td>
+          <td><input type="number" value="${r.avail}" id="qty-${r.id}" style="width: 70px;"></td>
+          <td><input type="number" value="${r.price}" id="prc-${r.id}" style="width: 90px;"></td>
+          <td><button onclick="updateRoom(${r.id})" style="background:#2563eb; color:white; border:none; padding:5px 10px; cursor:pointer;">Update</button></td>
+        </tr>`;
+    });
+  }
+
+  function bookRoom(name) {
+    const cin = document.getElementById('checkInDate').value;
+    if(!cin) { alert('Please choose a check-in date first.'); return; }
+    alert(`Success: Room "${name}" booked for ${cin}.\nFree cancellation valid up to 3 days prior!`);
+  }
+
+  function updateRoom(id) {
+    const r = rooms.find(item => item.id === id);
+    r.avail = parseInt(document.getElementById(`qty-${id}`).value);
+    r.price = parseInt(document.getElementById(`prc-${id}`).value);
+    alert(`${r.name} values updated successfully!`);
+    renderRooms();
+  }
+
+  document.getElementById('checkInDate').value = new Date().toISOString().split('T')[0];
+  renderRooms();
+</script>
+</body>
+</html>
