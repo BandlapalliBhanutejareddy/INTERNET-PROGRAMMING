@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Animation</title>
+
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background: orange;
+            margin: 100px auto;
+            animation: move 3s infinite alternate;
+        }
+
+        @keyframes move {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(150px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2 align="center">CSS Animation</h2>
+
+    <div class="box"></div>
+
+</body>
+</html>
